@@ -3,8 +3,8 @@
 % vende(Titulo, Autor, Genero, Editorial, Precio).
 
 % FUNCTORES
-% sería más o menos como tener un predicado asociado a otro, o que se puede usar un predicado
-% dentro de otro
+% sería más o menos como tener un predicado asociado a otro, o que se puede usar un
+% predicado dentro de otro
 % Ejemplo
 % vende(Articulo, Precio).
 % Articulo = libro(Nombre, Autor, Genero, Editorial) | cd(Titulo, Autor, Genero, CantDiscos, CantTemas).
@@ -41,9 +41,10 @@ autor(cd(_, Autor, _, _, _), Autor) :-
 % Articulo puede tener forma de libro o cd, pero no nos interesa
 
 % un poco más de teoría de la wiki de uqbar
-% nos dice que los functores nos permiten agrupar individuos en grupos para formar algo más abstracto
-% por ejemplo, si tenemos Artículos, podemos tener cd's y libros, pero simplemente los agrupamos en
-% Artículos, porque es lo que son, Artículos
+% nos dice que los functores nos permiten agrupar individuos en grupos para
+% formar algo más abstracto por ejemplo, si tenemos Artículos, podemos
+% tener cd's y libros, pero simplemente los agrupamos en Artículos, porque
+% es lo que son, Artículos
 
 % estos functores tienen un nombre y una aridad determinada, por ejemplo, para nuestro caso tenemos
 % cd de aridad 4 y libro de aridad 5
@@ -94,21 +95,38 @@ curiosidad(Articulo) :-
     autor(Articulo, Autor),
     not((vende(OtroArticulo, _), autor(OtroArticulo, Autor), Articulo \= OtroArticulo)).
 % solución propuesta en el video
-    
+% curiosidad es un predicado polimorfico
+
 
 % 3. sePrestaAConfusión/1: Se cumple para un título si pertenece a
 % más de un artículo.
-sePrestaALaConfusion(Titulo) :-
-    vende(libro(Titulo, _, _, _), _),
-    vende(cd(OtroTitulo, _, _, _, _), _),
-    Titulo = OtroTitulo.
+sePrestaAConfusion(Titulo) :-
+    titulo(Articulo, Titulo),
+    titulo(OtroArticulo, Titulo),
+    Articulo \= OtroArticulo.
+
+
+titulo(libro(Titulo, _, _, _), Titulo) :-
+    vende(libro(Titulo, _, _, _), _).
+titulo(cd(Titulo, _, _, _, _), Titulo) :-
+    vende(cd(Titulo, _, _, _, _), _).
+% creamos un predicado polimorfico titulo
+% que puede recibir como parámetro un libro o un cd
 
 % 4. mixto/1: Se cumple para los autores de más de un tipo de articulo.
 mixto(Autor) :-
     vende(libro(_, Autor, _, _), _),
     vende(cd(_, OtroAutor, _, _, _), _),
     Autor = OtroAutor.
+% puede ser una solución
+
+mixto(Autor) :-
+    autor(libro(_, _, _, _), Autor), autor(cd(_, _, _, _, _), Autor),
+    autor(libro(_, _, _, _), Autor), autor(pelicula(_, _, _), Autor),
+    autor(pelicula(_, _, _), Autor), autor(cd(_, _, _, _, _), Autor).
 
 % 5. Agregar soporte para vender Películas con título
 % director y género.
-pelicula(Titulo, Director, Genero).
+vende(pelicula(it, terror, wallace), 1600).
+titulo(pelicula(Titulo, _, _), Titulo) :-
+    vende(pelicula(Titulo, _, _), _).
