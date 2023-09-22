@@ -6,8 +6,8 @@
 % sería más o menos como tener un predicado asociado a otro, o que se puede usar un predicado
 % dentro de otro
 % Ejemplo
-vende(Articulo, Precio).
-Articulo = libro(Nombre, Autor, Genero, Editorial) | cd(Titulo, Autor, Genero, CantDiscos, CantTemas).
+% vende(Articulo, Precio).
+% Articulo = libro(Nombre, Autor, Genero, Editorial) | cd(Titulo, Autor, Genero, CantDiscos, CantTemas).
 % libro(Nombre, Autor, Genero, Editorial).
 % cd(Titulo, Autor, Genero, CantDiscos, CantTemas).
 
@@ -37,7 +37,7 @@ autor(libro(_, Autor, _, _), Autor) :-
 autor(cd(_, Autor, _, _, _), Autor) :-
     vende(cd(_, Autor, _, _, _), _).
 % "el autor de este artículo es éste siempre y cuando esté a la venta"
-% estamos aplicando polimorfismo en autor/2 (es un predicado polimorfico)
+% estamos aplicando POLIMORFISMO en autor/2 (es un predicado polimorfico)
 % Articulo puede tener forma de libro o cd, pero no nos interesa
 
 % un poco más de teoría de la wiki de uqbar
@@ -48,10 +48,10 @@ autor(cd(_, Autor, _, _, _), Autor) :-
 % estos functores tienen un nombre y una aridad determinada, por ejemplo, para nuestro caso tenemos
 % cd de aridad 4 y libro de aridad 5
 % podemos tener lo siguiente
-habitat(Animal, Bioma).
+% habitat(Animal, Bioma).
 
-mamifero(Nombre, CantPatas, Alimentacion).
-reptil(Nombre, CantPatas, Alimentacion).
+% mamifero(Nombre, CantPatas, Alimentacion).
+% reptil(Nombre, CantPatas, Alimentacion).
 
 habitat(mamifero(tigre, 4, carnivoro), sabana).
 habitat(reptil(cocodrilo, 4, carnivoro), pantano).
@@ -72,9 +72,6 @@ habitat(reptil(cocodrilo, 4, carnivoro), pantano).
 
 % Extender la base de conocimiento de los siguientes predicados
 % 1. libroMásCaro/1: Se cumple para un artículo si es el libro de mayor precio.
-libroMasCaro(Articulo) :-
-    not((vende(Articulo, Precio), vende(OtroArticulo, OtroPrecio), OtroPrecio > Precio)).
-% esta no es una solución (está mal)
 
 % el predicado se usará solo para Libros
 % entonces podemos añadir el functor dentro del predicado
@@ -83,23 +80,20 @@ libroMasCaro(libro(Titulo, Autor, Genero, Editorial)) :-
     forall(vende(libro(_, _, _, _), OtroPrecio), OtroPrecio =< Precio).
 % debemos ligar primero todos los libros que se vende a
 % un determinado precio
-% luego no aseguramos que para el libro en cuestión no haya ningún otro que
-% sea más caro
+% luego no aseguramos que todos los demás libros tengan menor o igual precio
 
 % 2. curiosidad/1: Se cumple para un artículo si es lo único que hay
 % a la venta de su autor.
 curiosidad(Articulo) :-
     autor(Articulo, Autor),
     forall(autor(OtroArticulo, OtroAutor), Autor = OtroAutor).
+% solución propuesta por mí (no sé si funciona)
 
 curiosidad(Articulo) :-
     vende(Articulo, _),
     autor(Articulo, Autor),
     not((vende(OtroArticulo, _), autor(OtroArticulo, Autor), Articulo \= OtroArticulo)).
 % solución propuesta en el video
-
-
-% 42:42
     
 
 % 3. sePrestaAConfusión/1: Se cumple para un título si pertenece a

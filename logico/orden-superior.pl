@@ -5,8 +5,6 @@ amigo(sergio, alvaro).
 amigo(alvaro, jeremias).
 amigo(gustavo, gabriel).
 
-% quiero consultar sobre aquellos que no son amigos de Sergio
-noAmigo(sergio) :- amigo(_, OtroAmigo), not(amigo(sergio, OtroAmigo)).
 
 % CUANTIFICADOR UNIVERSAL
 % NOT
