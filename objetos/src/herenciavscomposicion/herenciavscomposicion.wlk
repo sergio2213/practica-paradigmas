@@ -2,14 +2,27 @@
 // Link al ejercicio
 // https://docs.google.com/document/d/1lp07-hGwuP3q-pCM1jRjOfZ9g6W56Lrx5BFGWZwrvPQ/edit
 
-class Raza {
+class Personaje {
 	var property fuerza
 	var property inteligencia
-	var property rol // guerrero, cazador o brujo
+	// guerrero, cazador o brujo
+	var property rol
 	
 	// fuerza por diez más extra que depende del rol
 	// crear método potencia()
 	
+	
+}
+
+object guerrero {
+	
+}
+
+object cazador {
+	
+}
+
+object brujo {
 	
 }
 
@@ -39,6 +52,7 @@ class Cazador inherits Raza {
 class Brujo inherits Raza {
 	method extra() = 0
 }
+
 
 
 // 18:09
