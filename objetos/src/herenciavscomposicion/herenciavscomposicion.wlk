@@ -41,15 +41,15 @@ class Ciudad {
 	
 }
 
-class Guerrero inherits Raza {
+class Guerrero inherits Personaje {
 	method extra() = 100
 }
 
-class Cazador inherits Raza {
+class Cazador inherits Personaje {
 	method extra() = 111111
 }
 
-class Brujo inherits Raza {
+class Brujo inherits Personaje {
 	method extra() = 0
 }
 
