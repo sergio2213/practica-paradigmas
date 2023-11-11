@@ -25,7 +25,7 @@ object julieta {
 
 }
 
-object ositoDePelucha {
+object ositoDePeluche {
 
 	method valor() = 45
 
