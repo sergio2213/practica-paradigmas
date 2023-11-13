@@ -12,9 +12,15 @@ class Personaje {
 	// crear método potencia()
 	method potencialOfensivo() = fuerza * 10 + rol.potencialOfensivoExtra()
 
+	method esGroso() = self.esInteligente() || rol.esGroso(self)
+
+	method esInteligente()
+
 }
 
 class Humano inherits Personaje {
+
+	override method esInteligente() = inteligencia > 50
 
 }
 
@@ -22,12 +28,16 @@ class Orco inherits Personaje {
 
 	override method potencialOfensivo() = super() * 1.10
 
+	override method esInteligente() = false
+
 }
 
 // ROLES
 object guerrero {
 
 	method potencialOfensivoExtra() = 100
+
+	method esGroso(personaje) = personaje.fuerza() > 50
 
 }
 
@@ -37,11 +47,15 @@ class Cazador {
 
 	method potencialOfensivoExtra() = mascota.potencialOfensivo()
 
+	method esGroso(personaje) = mascota.esLongeva()
+
 }
 
 object brujo {
 
 	method potencialOfensivoExtra() = 0
+
+	method esGroso(personaje) = true
 
 }
 
@@ -52,17 +66,10 @@ class Mascota {
 	const tieneGarras
 
 	method potencialOfensivo() = if (tieneGarras) fuerza * 2 else fuerza
-	
+
 	method esLongeva() = edad > 10
 
 }
 
-class Aldea {
 
-}
-
-class Ciudad {
-
-}
-
-// 45:57
+// 1:03:34
