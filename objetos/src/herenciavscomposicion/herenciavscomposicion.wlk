@@ -71,7 +71,7 @@ class Mascota {
 
 class Ejercito {
 
-	const property miembros = []
+	var property miembros = []
 
 	method atacar(zona) {
 		
@@ -89,7 +89,7 @@ class Ejercito {
 
 class Zona {
 	
-	var property habitantes
+	var habitantes
 	
 	method potencialDefensivo() = habitantes.potencialOfensivo()
 	
@@ -106,7 +106,7 @@ class Ciudad inherits Zona {
 
 class Aldea inherits Zona {
 	
-	const maxHabitantes
+	const maxHabitantes = 50
 	
 	override method estaOcupadaPor(ejercito) {
 		if(ejercito.miembros().size() > maxHabitantes) {
@@ -116,7 +116,7 @@ class Aldea inherits Zona {
 				})
 				.take(10)
 			super(new Ejercito(miembros = nuevosHabitantes))
-			ejercito.miembros().removeAll(nuevosHabitantes)
+			// ejercito.miembros().removeAll(nuevosHabitantes) con esto descomentado da warning
 		} else {
 			super(ejercito)
 		}
