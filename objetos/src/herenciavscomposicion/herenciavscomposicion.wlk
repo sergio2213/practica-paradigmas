@@ -111,7 +111,7 @@ class Aldea inherits Zona {
 	override method estaOcupadaPor(ejercito) {
 		if(ejercito.miembros().size() > maxHabitantes) {
 			const nuevosHabitantes = ejercito.miembros()
-				.sorteBy({
+				.sortedBy({
 					x, y => x.potencialOfensivo() > y.potencialOfensivo()
 				})
 				.take(10)
