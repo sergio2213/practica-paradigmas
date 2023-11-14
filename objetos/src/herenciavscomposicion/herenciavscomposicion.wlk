@@ -8,8 +8,6 @@ class Personaje {
 	const property inteligencia
 	var property rol
 
-	// fuerza por diez más extra que depende del rol
-	// crear método potencia()
 	method potencialOfensivo() = fuerza * 10 + rol.potencialOfensivoExtra()
 
 	method esGroso() = self.esInteligente() || rol.esGroso(self)
@@ -71,5 +69,58 @@ class Mascota {
 
 }
 
+class Ejercito {
 
-// 1:03:34
+	const property miembros = []
+
+	method atacar(zona) {
+		
+		if(zona.potencialDefensivo() < self.potencialOfensivo()) {
+			zona.estaOcupadaPor(self)
+		}
+		
+	}
+	
+	method potencialOfensivo() = miembros.sum({
+		miembro => miembro.potencialOfensivo()
+	})
+
+}
+
+class Zona {
+	
+	var property habitantes
+	
+	method potencialDefensivo() = habitantes.potencialOfensivo()
+	
+	method estaOcupadaPor(ejercito) {
+		habitantes = ejercito
+	}
+}
+
+class Ciudad inherits Zona {
+	
+	override method potencialDefensivo() = super() + 300
+	
+}
+
+class Aldea inherits Zona {
+	
+	const maxHabitantes
+	
+	override method estaOcupadaPor(ejercito) {
+		if(ejercito.miembros().size() > maxHabitantes) {
+			const nuevosHabitantes = ejercito.miembros()
+				.sorteBy({
+					x, y => x.potencialOfensivo() > y.potencialOfensivo()
+				})
+				.take(10)
+			super(new Ejercito(miembros = nuevosHabitantes))
+			ejercito.miembros().removeAll(nuevosHabitantes)
+		} else {
+			super(ejercito)
+		}
+	}
+	
+}
+
